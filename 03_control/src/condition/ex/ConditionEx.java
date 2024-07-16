@@ -215,6 +215,54 @@ public void method5() {
 		 */
 
 }
+
+/** [연습 문제]
+ * 국어, 영어, 수학, 사탐, 과탐 점수를 입력 받아
+ * 40점 미만 과목이 있으면 FAIL
+ * 평균이 60점 미만인 경우도 FAIL
+ * 모든 과목 40점 이상, 평균 60점 이상인 경우 PASS
+ * 
+ * [출력 예시]
+ * 점수 예시 (국 영 수 사 과) : 100 50 60 70 80 
+ * 
+ * 
+ * 1) 40점 미만 과목이 존재하는 경우
+ * FAIL [40점 미만 과목 : 국어 영어]
+ * 
+ * 
+ * 2) 평균 60점 미만인 경우
+ * FAIL [점수 : 50.4 (평균 미달)]
+ * 
+ * 3) PASS인 경우
+ * PASS [점수 : 83.4 / 100]
+ */
+public void practice() {
+	
+	
+	System.out.print("국어 점수 :  ");
+	int kor = sc.nextInt(); // 국
+	System.out.print("영어 점수 :  ");
+	int eng = sc.nextInt(); // 영
+	System.out.print("수학 점수 :  ");
+	int mat = sc.nextInt(); // 수
+	System.out.print("사탐 점수 :  ");
+	int soc = sc.nextInt(); // 사
+	System.out.print("과탐 점수 :  ");
+	int sci = sc.nextInt(); // 과
+		
+	System.out.print("점수 입력 (국 영 수 사 과) : ");
+	System.out.print(kor + ",");
+	System.out.print(eng + ",");
+	System.out.print(mat + ",");
+	System.out.print(soc + ",");
+	System.out.print(sci);
+	
+	
+
+
+
+
+}
 }
 
 
