@@ -84,13 +84,13 @@ public class PrintEx {
 				
 		//문자열 6칸 왼쪽 정렬 : %6s
 		System.out.println();
-		System.out.printf("%-6s/%f", name, height);//ㅁㅁㅁ홍길동/212.500000
+		System.out.printf("%-6s/%f", name, height);//홍길동ㅁㅁㅁ/212.500000
 	
 	
 		//소수점 아래로 한자리 : %.1f
 		double num = 1.25;
 		System.out.println();
-		System.out.printf("%s/%.1f", name, num);//ㅁㅁㅁ홍길동/212.500000
+		System.out.printf("%s/%.1f", name, num);//ㅁㅁㅁ홍길동/212.5
 		
 	}
 
