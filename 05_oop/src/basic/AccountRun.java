@@ -53,5 +53,6 @@ public class AccountRun {
 		a1.withdraw("1q2w3e4r", 20000);// 잔액 부족
 		a1.withdraw("1q2w3e4r", 2000);// 출금 성공
 		a1.withdraw("1q2w3e4r", 13000);// 모두 출금
+		
 	}
 }
