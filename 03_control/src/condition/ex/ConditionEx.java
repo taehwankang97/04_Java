@@ -1,6 +1,5 @@
 package condition.ex;
  
-import java.net.MulticastSocket;
 import java.util.Scanner;
 /**
  * 조건문 예시 기능용 클래스 
@@ -14,7 +13,7 @@ public class ConditionEx {
 	 */
 	public void method1() {
 		int ran = (int)(Math.random()* 10 +1);
-		if(ran % 2 != 0) {
+		if(ran % 2 != 1) {
 			System.out.println("짝수 입니다");
 		}else {
 			System.out.println("홀수 입니다");

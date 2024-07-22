@@ -111,7 +111,7 @@ public class OperatorEx {
 	public void method4() {
 		
 		// 1 ~ 20 사이 난수
-		int randomNumber = (int) (Math.random() * 20 + 1);
+		int randomNumber = (int)(Math.random() * 20 + 1);
 		
 		System.out.println("생성된 난수 : " + randomNumber);
 		
@@ -134,7 +134,7 @@ public class OperatorEx {
 		System.out.print("입력 :");
 		int input = sc.nextInt();
 		
-		boolean result = (input % 2 == 0) || (input > 10);
+		boolean result = (input % 2 == 0) && (input > 10);
 		System.out.println("result : " + result);
 	}
 	/**
