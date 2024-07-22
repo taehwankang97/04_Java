@@ -10,11 +10,11 @@ public class ConditionRun {
 		
 		// ConditionEx 객체 생성
 		ConditionEx ex = new ConditionEx();
-		ex.method1();
+		//ex.method1();
 		//ex.method2();
 		//ex.method3();
 		//ex.displayMenu();
-		//ex.practice();
+		ex.practice();
 		
 	}
 }

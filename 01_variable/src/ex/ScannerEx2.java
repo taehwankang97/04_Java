@@ -43,7 +43,7 @@ public class ScannerEx2 {
 					  // 자세한 내용은 클래스 아래 확인
 		String introduce = sc.nextLine();
 		//\n == 줄바꿈 문자
-		System.out.printf("%s은 %d세, 키는%.1fcm의 %c성입니다.\n", 
+		System.out.printf("%s은/는 %d세, 키는%.1fcm의 %c성입니다.\n", 
 							name, age, height, gender);
 		System.out.println("자기소개 : " + introduce);
 	}
@@ -79,7 +79,7 @@ public class ScannerEx2 {
  *  
  *  해결 방법 
  *  -> 중간에 nextLine() 구문을 추가하여
- *  남앙 있는 [엔터]를 꺼내가서 없애라
+ *  남아 있는 [엔터]를 꺼내가서 없애라
  *   int num = sc.nextInt();
  *   sc.nextLine(); // 입력 버퍼에 남아있는 [엔터] 제거
  *  String str = sc.nextLine();

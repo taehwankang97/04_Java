@@ -8,7 +8,7 @@ public class LoopEx1 {
 	Scanner sc = new Scanner(System.in);
 
 	/**
-	 * 1부터 10까지 추력하기
+	 * 1부터 10까지 출력하기
 	 */
 	public void method1() {
 		// Java는 초기식 변수 선언 시 let X -> Java 자료형
@@ -93,7 +93,7 @@ public class LoopEx1 {
 	public void method4() {
 		int sum = 0;
 		int count = 0;
-		for (int i = 1; i <= 100; i++) {
+		for(int i = 1; i <= 100; i++) {
 			if (i % 5 == 0) {// 5의 배수인 경우
 				sum += i;// i값 누적
 				count++; // count 1 증가

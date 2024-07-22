@@ -242,7 +242,7 @@ public void practice() {
 	int eng = sc.nextInt(); // 영
 	int mat = sc.nextInt(); // 수
 	int soc = sc.nextInt(); // 사
-		int sci = sc.nextInt(); // 과
+	int sci = sc.nextInt(); // 과
 		
 		//40점 미만인 과목 검사
 		boolean flag = false;
@@ -250,23 +250,23 @@ public void practice() {
 		
 		if(kor < 40) {
 			flag = true;
-			str += "국어";
+			str += " 국어";
 		}
 		if(eng < 40) {
 			flag = true;
-			str += "영어";
+			str += " 영어";
 		}
 		if(mat < 40) {
 			flag = true;
-			str += "수학";
+			str += " 수학";
 		}
 		if(soc < 40) {
 			flag = true;
-			str += "사회";
+			str += " 사회";
 		}
 		if(sci < 40) {
 			flag = true;
-			str += "과학";
+			str += " 과학";
 		}
 		//40점 미만 과목이 존재하는 경우 
 		if(flag) {
