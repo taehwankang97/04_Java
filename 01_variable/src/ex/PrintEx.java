@@ -72,7 +72,7 @@ public class PrintEx {
 				
 		//printf 로 해보기	
 		
-		System.out.printf("%s은 %d세 %C으로 키는 %fcm 이고, 자바 공부 여부 : %b",
+		System.out.printf("%s은 %d세 %C으로 키는 %fcm 이고, 자바 공부 여부는 : %b",
 						  name, age, gender, height, javaStudy);
 				
 		System.out.println();
@@ -82,9 +82,9 @@ public class PrintEx {
 		System.out.println();
 		System.out.printf("%6s/%f", name, height);//ㅁㅁㅁ홍길동/212.500000
 				
-		//문자열 6칸 왼쪽 정렬 : %6s
+		//문자열 6칸 왼쪽 정렬 : %-6s
 		System.out.println();
-		System.out.printf("%-6s/%f", name, height);//홍길동ㅁㅁㅁ/212.500000
+		System.out.printf("마이너스%-6s/%f", name, height);//홍길동ㅁㅁㅁ/212.500000
 	
 	
 		//소수점 아래로 한자리 : %.1f

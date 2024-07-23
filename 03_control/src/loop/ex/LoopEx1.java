@@ -93,7 +93,9 @@ public class LoopEx1 {
 	public void method4() {
 		int sum = 0;
 		int count = 0;
-		for(int i = 1; i <= 100; i++) {
+		System.out.print("숫자를 입력해 주세요 : ");
+		int a = sc.nextInt();
+		for(int i = 1; i <= a; i++) {
 			if (i % 5 == 0) {// 5의 배수인 경우
 				sum += i;// i값 누적
 				count++; // count 1 증가
