@@ -176,9 +176,7 @@ public class StudentService {
 	    double WA = Double.MAX_VALUE;
 	    
 	    for (StudentDTO std : students) {
-	        if (std == null) {
-	            continue;
-	        }
+	        if (std == null)  break;
 	        
 	        int sum = std.getHtml() + std.getCss() + std.getJs() + std.getJava();
 	        double avg = sum / 4.0;
