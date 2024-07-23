@@ -6,11 +6,11 @@ public class FieldRun {
 
 		// FiedTest1 객체 생성
 		FieldTest1 f1 = new FieldTest1();
-		//protected 필드 직접 접근
-		System.out.println(f1.protectedValue);
-		
 		//public 필드 직접 접근
 		System.out.println(f1.publicValue);
+		
+		//protected 필드 직접 접근
+		System.out.println(f1.protectedValue);
 		
 		//defaultValue필드 직접 접근
 		// -> 같은 패키지라서 가능!! 

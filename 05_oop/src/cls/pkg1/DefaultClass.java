@@ -1,6 +1,6 @@
 package cls.pkg1;
 
-//default zmffotm : 같은 패키지만 접근 가능
+//default 클래스 : 같은 패키지만 접근 가능
 class DefaultClass {
 	
 	public void method() {
