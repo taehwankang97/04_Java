@@ -22,4 +22,12 @@ public class Child extends Parent {
 	public void setCar(String car) {
 		this.car = car;
 	}
+	
+	// Parent의 toString() 오버라이딩 하기 
+		@Override
+		public String toString() {
+			return "child : " + getLastName() + "/"
+							  + getMoney() + "/"
+							  + car;
+		}
 }
