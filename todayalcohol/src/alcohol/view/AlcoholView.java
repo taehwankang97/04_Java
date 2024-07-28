@@ -44,7 +44,7 @@ public class AlcoholView {
 				selectList();
 				break;
 			case 3:
-				selectType();
+				selectName();
 				break;
 			case 4:
 				selectCountry();
@@ -80,7 +80,8 @@ public class AlcoholView {
 	}
 
 	private void selectList() {
-	    System.out.println("\n 술 찾아보기 프로그램 \n");
+	    // 술 종류 목록 출력
+	    System.out.println("\n술 찾아보기 프로그램\n");
 	    System.out.println("1. 소주");
 	    System.out.println("2. 맥주");
 	    System.out.println("3. 와인");
@@ -91,33 +92,37 @@ public class AlcoholView {
 	    System.out.println("8. 막걸리 (+)");
 	    System.out.println("0. 종료");
 	    System.out.println();
+	    
 	    System.out.print("검색할 주종 이름 입력: ");
-	    String type = sc.nextLine();
-
-	    if (type.matches(".*\\d.*")) {
-	        System.out.println("숫자가 아닌 이름으로 검색해 주세요");
+	    String type = sc.nextLine();  
+	    
+	    // 입력이 비어있거나 숫자가 포함된 경우 처리
+	    if (type.isEmpty()) {
+	        System.out.println("입력 값이 비어있습니다. 주종 이름을 입력해 주세요.");
 	        return;
 	    }
-
+	    if (type.matches(".*\\d.*")) {
+	        System.out.println("숫자가 포함된 이름은 검색할 수 없습니다. 숫자가 없는 이름으로 검색해 주세요.");
+	        return;
+	    }
+	    
 	    List<AlcoholDTO> searchList = service.selectType(type);
-
+	    
 	    if (searchList.isEmpty()) {
 	        System.out.println("조회 결과가 없습니다.");
-	        return;
-	    }
-
-	    for (AlcoholDTO alcohol : searchList) {
-	        System.out.println(alcohol);
+	    } else {
+	        for (AlcoholDTO alcohol : searchList) {
+	            System.out.println(alcohol);
+	        }
 	    }
 	}
 
-
-	private void selectType() {
+	private void selectName() {
 		System.out.println("\n 술 이름으로 조회(포함)\n");
 
 		System.out.println(" 검색할 술 이름 입력:");
-		String type = sc.nextLine();
-		List<AlcoholDTO> searchList = service.selectType(type);
+		String name = sc.nextLine();
+		List<AlcoholDTO> searchList = service.selectName(name);
 		if (searchList.isEmpty()) {
 			System.out.println("조회 결과가 없습니다 ");
 			return;
@@ -215,25 +220,12 @@ public class AlcoholView {
 	    }
 	    AlcoholDTO alcohol = searchList.get(0);
 	    System.out.println("현재 가격: " + alcohol.getPrice());
-	    System.out.print("새 가격 입력: ");
-	    int newPrice;
-	    while (true) {
-	        try {
-	            newPrice = sc.nextInt();
-	            sc.nextLine();
-	            if (newPrice < 0) {
-	                System.out.println("가격은 0 이상의 정수여야 합니다. 다시 입력해 주세요.");
-	                continue;
-	            }
-	            break;
-	        } catch (Exception e) {
-	            System.out.println("유효하지 않은 입력입니다. 숫자를 입력해 주세요.");
-	            sc.nextLine(); 
-	        }
-	    }
-	    alcohol.setPrice(newPrice);
-	    System.out.println("가격이 수정되었습니다. 새로운 가격: " + alcohol.getPrice());
+	    System.out.println("수정할 가격 입력 : ");
+		int newPrice = sc.nextInt();
+		int beforePrice = alcohol.getPrice();
+		alcohol.setPrice(newPrice);
+		System.out.printf("[%s] 가격이 (%d)원에서 -> (%d)원으로 수정 되었습니다 \n",
+				alcohol.getName(), beforePrice, newPrice);
 	}
-
 }
 	

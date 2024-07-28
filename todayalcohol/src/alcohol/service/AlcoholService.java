@@ -81,7 +81,6 @@ public class AlcoholService {
 	            return name;
 	        }
 	    }
-	    System.out.println("해당 이름의 술이 목록에 없습니다.");
 	    return null;
 	}
 }
