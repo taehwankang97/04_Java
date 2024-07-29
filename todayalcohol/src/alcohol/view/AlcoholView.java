@@ -201,7 +201,7 @@ public class AlcoholView {
 		System.out.printf("%s가 목록에서 제거 되었습니다.",result);
 		List<AlcoholDTO>AlcoholList = service.selectAll();
 		
-			System.out.println(AlcoholList);
+			System.out.println();
 		}
 	
 
