@@ -118,7 +118,7 @@ public class MapService {
 		System.out.println("-----------------------------------");
 		
 		/* 2) Map.entrySet() 이용 */
-		// -> K:V 쌍 형태릐 객체를 모아둔 집합 (Set) 반환
+		// -> K:V 쌍 형태의 객체를 모아둔 집합 (Set) 반환
 		
 		Set<Map.Entry<String, Object>>set = student.entrySet();
 		System.out.println(set);
