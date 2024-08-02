@@ -3,6 +3,7 @@ package dto;
 import java.io.Serializable;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,4 +35,6 @@ public class Member implements Serializable{ // 직렬화
 	private int amount; 
 	private int grade;
 
+	
+	
 }
