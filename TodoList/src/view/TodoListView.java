@@ -102,6 +102,7 @@ public class TodoListView {
 					todo.getTitle(), todo.getDetail(), todo.getRegDate());
 			System.out.println();
 		}
+		
 	}
 	
 	
