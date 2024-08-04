@@ -65,7 +65,7 @@ public class MemberView {
 		int input = Integer.parseInt(br.readLine());
 		System.out.println();
 		
-		return;
+		return input;
 	}
 	
 }

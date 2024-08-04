@@ -71,14 +71,7 @@ public class AlcoholView {
 		} while (input != 0);
 	}
 
-	private void selectAll() {
-		System.out.println("\n 전체 조회 \n");
-		List<AlcoholDTO> AlcoholList = service.selectAll();
-		for (int i = 0; i < AlcoholList.size(); i++) {
-			System.out.println(i + 1 + ")" + AlcoholList.get(i));
-		}
-	}
-
+	
 	private void selectList() {
 	    // 술 종류 목록 출력
 	    System.out.println("\n술 찾아보기 프로그램\n");
@@ -116,6 +109,14 @@ public class AlcoholView {
 	        }
 	    }
 	}
+	private void selectAll() {
+		System.out.println("\n 전체 조회 \n");
+		List<AlcoholDTO> AlcoholList = service.selectAll();
+		for (int i = 0; i < AlcoholList.size(); i++) {
+			System.out.println(i + 1 + ")" + AlcoholList.get(i));
+		}
+	}
+
 
 	private void selectName() {
 		System.out.println("\n 술 이름으로 조회(포함)\n");
