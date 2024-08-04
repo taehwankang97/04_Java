@@ -16,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Todo implements Serializable{ // 직렬화
+public class TodoList implements Serializable{ // 직렬화
 	
 	private String title;			// 할일 제목
 	private String detail;			// 상세 내용
