@@ -9,16 +9,15 @@ import dto.Todo;
 
 public interface TodoListService {
 	
-	public abstract boolean addTodoList(String title, String detail) throws IOException;
-
+	
 	public abstract	List<Todo> getTodoList();
+
 	
+	boolean addTodoList(String title, String detail) throws IOException;
+
+	boolean addTodo(Todo todo) throws IOException;
+
+	List<Todo> selectTitle(String searchTitle);
 	
-	public List<Todo> selectTitle(String searchTitle);
-		
-	public String completeTodo(Todo target, String complete) throws IOException;
-		
-	public String updateDetail(Todo target, String detail) throws IOException;
-	
-	public String removeMember(Todo target) throws IOException;
+
 }

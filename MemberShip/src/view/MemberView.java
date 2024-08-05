@@ -5,426 +5,328 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import dto.Member;
-import service.MemberService;
-import service.MemberServiceImpl;
+import dto.Todo;
+import service.TodoListService;
+import service.TodoListServiceImpl;
 
-// View : 사용자에게 보여지는 역할을 하는 클래스/객체
-// - 보여줄 화면을 출력 / 필요한 데이터를 입력
-public class MemberView {
 
-	private MemberService service = null;
+public class TodoListView {
+	
+	// 필드 생성
+	private TodoListServiceImpl service = null;
 	private BufferedReader br = null;
 	
-	// 기본 생성자
-	public MemberView() {
+	
+	public TodoListView() {
 		
 		try {
-			// 객체 생성 중 발생한 예외를 View에 모아서 처리
-			service = new MemberServiceImpl();
 			
-			// 키보드를 입력 받기 위한 스트림 생성
-			br = new BufferedReader(new InputStreamReader(System.in));   
-		
+			service = new TodoListServiceImpl();
+			
+			br = new BufferedReader(new InputStreamReader(System.in));
+			
 		}catch (Exception e) {
-		
-			System.out.println("*** 프로그램 실행 중 오류 발생 ***");
-			e.printStackTrace(); 
-			System.exit(0); // 프로그램 종료
+			System.out.println("*** 프로그램 실행 중 오류발생 ***");
+			e.printStackTrace();
+			System.exit(0);
 		}
+	}
+	// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+	// 메인 메뉴
+	
+	private int selectMenu() throws NumberFormatException, IOException {
+		System.out.println("====== Todo List =====");
+		System.out.println("1. Todo List Full View"); // 할일 목록 전체 조회
+		System.out.println("2. Todo Detail View");    // 자세히 보기?
+		System.out.println("3. Todo Add");			  // 할일 추가
+		System.out.println("4. Todo Complete");       // 완료
+		System.out.println("5. Todo Update");	  	  // 수정
+		System.out.println("6. Todo Delete"); 		  // 삭제
+		System.out.println("0. EXIT");				  // 프로그램 종료
+		
+		System.out.println("select menu number >>>");
+		
+		int input = Integer.parseInt(br.readLine());
+		System.out.println();
+		
+		return input;
+		
 	}
 	
 	
-	// -------------------------------------------------------------------
-	// [메인 메뉴]
 	public void mainMenu() {
 		
 		int input = 0;
+		
 		do {
 			
 			try {
-				// 메뉴 출력 후 입력된 번호를 반환 받기
+				
 				input = selectMenu();
-				
-				
-				// 선택된 메뉴 번호에 따라 case 선택
+			
 				switch(input) {
-				case 1: addMember(); break;
-				case 2: selectAll(); break;
-				case 3: selectName(); break;
-				case 4: updateAmount();  break;
-				case 5: updateMember(); break;
-				
-				case 6: deleteMember(); break;
-				
-				case 0: System.out.println("*** 프로그램 종료 ***"); break;
-				default : System.out.println("### 메뉴에 작성된 번호만 입력 해주세요 ###");
-				}
-				
-				System.out.println("=====================================");
-				
-				
-			} catch(NumberFormatException e) {
+				case 1 : ListAll();  break;
+				case 2 : detailView();  break;
+				case 3 : addTodo();  break;
+				case 4 : completeTodo(); break;
+				case 5 : updateTodo();  break;
+				case 6 : deleteTodo(); break;
+				case 0 : System.out.println("\n@@@ 프로그램 종료 @@@\n"); break;
+				default : System.out.println("잘못 입력하였습니다.");;
+			}
+			
+				System.out.println("==============================================");
+			}catch (NumberFormatException e) {
 				System.out.println("\n### 숫자만 입력 해주세요 ###\n");
-				input = -1; // 첫 반복에서 종료되지 않게 값 변경
-			
-			} catch(IOException e) {
-				System.out.println("\n### 입출력 관련 예외 발생 ###\n");
-				e.printStackTrace(); // 예외 추적
-			
-			} catch(Exception e) { // 나머지 예외 처리
+				input = -1; // 첫 반복에서 종료되지 않게 값 변경 // 
+			}catch(IOException e) {
+				System.out.println("\n### 입출력 관련 예외 발생 ###\n"); 
+				e.printStackTrace();
+			}catch (Exception e) { // 나머지 예외 처리
 				e.printStackTrace();
 			}
 			
-			
 		}while(input != 0);
-		
-		
 	}
-	
-	
-	// -------------------------------------------------------------------
-	// [메뉴 출력/선택하는 메서드]
-	
-	private int selectMenu() throws NumberFormatException, IOException {
-		
-		System.out.println("\n===== 회원 관리 프로그램 =====\n");
-		
-		System.out.println("1. 회원 가입(추가)");
-		System.out.println("2. 회원 전체 조회");
-		System.out.println("3. 이름 검색(동명이인 있으면 모두 조회)");
-		System.out.println("4. 특정 회원 사용 금액 누적하기");
-		System.out.println("5. 회원 정보 수정");
-		System.out.println("6. 회원 탈퇴");
-		System.out.println("0. 종료");
-		
-		System.out.print("메뉴 선택 >>> ");
-		
-		// 입력 받은 문자열을 int 형태로 변환
-		int input = Integer.parseInt( br.readLine() );
-		System.out.println(); // 줄바꿈
-		
-		return input;
-	}
-	
-	
-	// ---------------------------------------------------------------
-	// [1. 회원 가입(추가)]
-	
-	private void addMember() throws IOException {
-		System.out.println("\n----- 회원 가입(추가) -----\n");
-		
-		System.out.print("이름 : ");
-		String name = br.readLine();
-		
-		// 정상 입력(11글자)이 될 때 까지 다시 입력 받기
-		String phone = null;
-		
-		while(true) {
-			System.out.print("휴대폰 번호(- 제외) : ");
-			phone = br.readLine();
 
-			if(phone.length() != 11) {
-				System.out.println("*** 다시 입력 해주세요 ***\n");
-				continue;
-			}
-			
-			break;
-		}
-		
-		
-		// 회원 추가 서비스 호출 후 결과 반환 받기
-		boolean result = service.addMember(name, phone);
-		
-		if(result) {
-			System.out.println("\n*** 회원이 추가 되었습니다 ***\n");
-			
-		} else {
-			System.out.println("\n### 중복되는 휴대폰 번호가 존재합니다 ###\n");
-		}
-		
-	}
 	
-	
-	
-	
-	// -------------------------------------------------------------
-	// [2. 회원 전체 조회]
-	
-	private void selectAll() {
-		System.out.println("\n----- 회원 전체 조회 -----\n");
+	//[1] 할일 목록 전체 보기 
+	private void ListAll() {
+		System.out.println("\n=== Todo List Full View ===\n");
 		
-		// 회원 목록을 조회해 반환하는 서비스 호출
-		List<Member> memberList = service.getMemberList();
+		List<Todo> TodoList = service.getTodoList();
 		
-		// 조회된 회원 목록이 없을 경우
-		// -> MemberDaoImpl 생성자 코드에 의해서
-		//   memberList는 "절대로" null이 될 수 없다!!!!
+		// 조회할 할일 목록이 없을 경우
 		
-		// -> 참조하는 List는 있지만 비어있는지 검사를 해야한다!
-		if(memberList.isEmpty()) {
-			System.out.println("\n### 회원이 존재하지 않습니다 ###\n");
+		if(TodoList.isEmpty()) {
+			System.out.println("\n### 할일 목록이 존재하지 않습니다. ###\n");
 			return;
 		}
 		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		
-		String[] gradeArr = {"일반", "골드", "다이아"};
-		
-		
-		System.out.println("-------------------------------------------");
-		
-		System.out.printf("%-5s %-7s %8s %4s \n",
-				"[이름]", "[휴대폰 번호]", "[누적금액]", "[등급]");
-		
-		System.out.println("-------------------------------------------");
-		
-		
-		// 향상된 for문
-		for(Member member : memberList) {
-		
-			System.out.printf("%-6s %-12s %8d %5s \n",
-				member.getName(), member.getPhone(),
-				member.getAmount(),  gradeArr[member.getGrade()] );
-			
+		for(Todo todo : TodoList) {
+			System.out.printf("%s %s %s",
+					todo.getTitle(), todo.getDetail(), todo.getRegDate().format(formatter));
 		}
 	}
 	
 	
-	
-	// ------------------------------------------------------------------------
-	// [이름으로 검색(동명이인)]
-	
-	private void selectName() throws IOException {
-		System.out.println("\n----- 이름 검색(동명이인 있으면 모두 조회) -----\n");
+	// [2] 자세히 보기
+	private void detailView() throws IOException {
+		System.out.println("\n=== TodoList detail view ===\n");
 		
-		// 검색할 이름 입력 받기
-		System.out.print("검색할 이름 입력 : ");
-		String searchName = br.readLine();
+		// 과제명으로 검색하기
+		System.out.println("조회할 할일 제목 입력 >>>>");
+		String searchTitle = br.readLine();
 		
-		// 이름 검색 서비스 호출 후 결과 반환 받기
-		List<Member> searchList = service.selectName(searchName);
+		// 목록에서 이름으로 검샐 후 결과 반환
+		List<Todo> searchList = service.selectTitle(searchTitle);
 		
-		// 검색 결과가 없을 경우
+		// 검색결과가 없을 경우
 		if(searchList.isEmpty()) {
 			System.out.println("\n### 검색 결과가 없습니다 ###\n");
 			return;
 		}
 		
-		
-		// 검색 결과가 있을 경우
-		for(Member member : searchList) {
-			System.out.println(member);
+		// 검색결과 있을 경우
+		for(Todo todo : searchList) {
+			System.out.println(todo);
 		}
+	}
+	
+	
+	// [3] 할일 목록 추가
+	private void addTodo() throws IOException {
+		System.out.println("\n=== Todo Add ===\n");
+		
+		System.out.println("제목 : ");
+		String title = br.readLine();
+		
+		System.out.println("상세내용 : ");
+		String detail = br.readLine();
+		
+		// 제목, 상세내용으로 할일 목록 추가 후 결과 반환받기
+		boolean result = service.addTodoList(title, detail);
+		
+		if(result) {
+			System.out.println("\n*** 목록에 추가되었습니다. ***\n");
+		}
+	}
+	
+	// [4] 할일 완료 여부
+	private void completeTodo() throws IOException {
+		System.out.println("\n=== Todo Complete ===\n");
+		
+		System.out.print("완료여부 수정할 할 일 이름 입력 >>>>>");
+		String targetTitle = br.readLine();
+		
+		List<Todo> searchList = service.selectTitle(targetTitle);
+		
+		if(searchList.isEmpty()) {
+			System.out.println("\n### 일치하는 할 일이 없습니다. ###\n");
+			return;
+		}
+		
+		Todo target = null;
+		
+		// 동일한 제목이 있을 경우
+		if(searchList.size()>1) {
+			System.out.println("\n### 할 일을 선택해주세요. ###\n");
+			
+			for(int i=0; i<searchList.size();i++) {
+				
+				System.out.printf("%d) %s %s \n",
+						i+1, searchList.get(i).getTitle(), searchList.get(i).getDetail() );
+			}
+			
+			System.out.println("선택할 할 일 번호를 입력 : ");
+			int input = Integer.parseInt(br.readLine());
+			
+			
+			if(input >= searchList.size() || input < 0) {
+				System.out.println("\n## 없는 할 일 번호입니다. 다시 시도해주세요. ###\n");
+				return;
+				
+			}
+			target = searchList.get(input);
+			
+		}else {
+			target = searchList.get(0);
+		}
+		System.out.println("완료한 경우 '완료'를 입력 해주세요");
+		String complete = br.readLine();
+		
+		// 할 일, 완료여부를 서비스로 전단
+		// - 완료여부 변경
+		// 파일에 데이터로 저장
+		
+		String result = service.completeTodo(target, complete);
+		
+		System.out.println(result);
 		
 		
 	}
 	
-	//------------------------------------------------------------
-	// [특정 회원 사용 금액 누적하기]
-	
-	private void updateAmount() throws IOException {
-		System.out.println("\n----- 특정 회원 사용 금액 누적하기 -----\n");
+	// [5] 할일 목록 수정하기
+	private void updateTodo() throws IOException {
+		System.out.println("\n=== Todo Update ===\n");
 		
-		System.out.print("회원 이름 입력 : ");
-		String targetName = br.readLine();
+		System.out.print("수정할 할 일 이름 입력 >>>>>");
+		String targetTitle = br.readLine();
 		
-		// 이름이 일치하는 회원 모두 조회
-		List<Member> searchList = service.selectName(targetName);
+		List<Todo> searchList = service.selectTitle(targetTitle);
 		
-		// 이름이 일치하는 회원이 없을 경우
 		if(searchList.isEmpty()) {
-			System.out.println("\n### 이름이 일치하는 회원이 존재하지 않습니다 ###\n");
+			System.out.println("\n### 일치하는 할 일이 없습니다. ###\n");
 			return;
 		}
 		
-	
-		// 금액 증가 대상 회원만 참조할 Member 참조 변수 선언
-		Member target = null;
+		Todo target = null;
 		
-		// 1) 동명이인이 있을 경우
-		//    -> 이름/전화번호를 출력해서 한 명만 선택하게 함
+		// 동일한 제목이 있을 경우
+		if(searchList.size()>1) {
+			System.out.println("\n### 할 일을 선택해주세요. ###\n");
+			
+			for(int i=0; i<searchList.size();i++) {
+				
+				System.out.printf("%d) %s %s \n",
+						i+1, searchList.get(i).getTitle(), searchList.get(i).getDetail() );
+			}
+			
+			System.out.println("선택할 할 일 번호를 입력 : ");
+			int input = Integer.parseInt(br.readLine());
+			
+			
+			if(input >= searchList.size() || input < 0) {
+				System.out.println("\n## 없는 할 일 번호입니다. 다시 시도해주세요. ###\n");
+				return;
+				
+			}
+			target = searchList.get(input);
+			
+		}else {
+			target = searchList.get(0);
+		}
+		
+		// 수정할 상세 내용 입력
+		System.out.print("수정할 내용을 입력하세요.");
+		
+		String detail = br.readLine();
+		
+		String result = service.updateDetail(target, detail);
+		
+		System.out.println(result);
+	}
+	
+	// [6] 할일 삭제하기
+	private void deleteTodo() throws IOException {
+		System.out.print("\n### Todo Delete ###\n");
+		  
+		// 삭제할 할 일 제목 입력받기
+		System.out.print("삭제할 할 일 제목 입력 >>> ");
+		String targetName = br.readLine();
+				
+		// 제목이 일치하는 회원 모두 조회
+		List<Todo> searchList = service.selectTitle(targetName);
+				
+		// 제목이 일치하는 회원이 없을 경우
+		if(searchList.isEmpty()) {
+			System.out.println("\n### 제목이 일치하는 할 일이 없습니다. ###\n");
+			return;
+			}
+				
+		// 삭제할 할일 제목만 참조할 Member 참조 변수 선언
+		Todo target = null;
+		
 		if(searchList.size() > 1) {
-			System.out.println("\n*** 대상 회원을 선택 해주세요 ***\n");
+			System.out.println("\n*** 삭제할 제목을 선택해주세요 ***\n");
 			
-			// 일반 for문 사용 이유 -> i 값 활용하고 싶어서
-			for(int i = 0 ; i < searchList.size() ; i++) {
+			for(int i = 0; i < searchList.size(); i++) {
 				System.out.printf("%d) %s (%s)\n",
-						i+1, 
-						searchList.get(i).getName(),
-						searchList.get(i).getPhone());
+									i+1,
+									searchList.get(i).getTitle(),
+									searchList.get(i).getDetail());
 			}
+					
+			System.out.print("삭제할 할 일의 번호를 입력 : ");
+					
+			int input = Integer.parseInt(br.readLine()) -1;
 			
-			System.out.print("선택할 회원의 번호를 입력 : ");
-			int input = Integer.parseInt( br.readLine() ) - 1;
-						// 문자열 -> 정수로 변환
-						// 입력된 번호를 index에 맞추기 위해 -1
-			
-			// 입력된 번호가 searchList의 index범위를 초과한 경우
-			if(input < 0 || input >= searchList.size()) {
-				System.out.println("\n### 없는 회원 번호 입니다. 다시 시도 해주세요 ###\n");
-				return;
-			}
-			
-			// target에 회원 저장
-			target = searchList.get(input);
-		
-		} else {
-			// 2) 동명이인이 없을 경우
-			target = searchList.get(0);
-		}
-		
-		
-		// 누적할 금액 입력
-		System.out.print("누적할 금액 입력 : ");
-		int acc = Integer.parseInt(br.readLine());
-		
-		
-		// 대상 회원, 누적할 금액을 서비스로 전달하여 결과 반환
-		// - 금액 누적 
-		// - 등급 조정
-		// - 파일에 데이터 저장
-		
-		// - 서비스에서 반환 받을 문자열
-		// ex) 신짱구 회원님의 누적 금액
-		//     2000 -> 100000
-		//     * 골드 * 등급으로 변경 되셨습니다
-		
-		String result = service.updateAmount(target, acc);
-		
-		System.out.println(result);
-	}
-	
-	
-	// -----------------------------------------------------------------
-	// [회원 정보 수정]
-	
-	private void updateMember() throws IOException {
-		System.out.println("\n----- 회원 정보 수정 -----\n");
-		
-		System.out.print("회원 이름 입력 : ");
-		
-		String targetName = br.readLine();
-		
-		// 이름이 일치하는 회원 모두 조회
-		List<Member> searchList = service.selectName(targetName);
-		
-		// 이름이 일치하는 회원이 없을 경우
-		if(searchList.isEmpty()) {
-			System.out.println("\n### 이름이 일치하는 회원이 존재하지 않습니다 ###\n");
-			return;
-		}
-		
-		// 수정 대상을 참조할 변수 선언
-		Member target = null;
-		
-		if(searchList.size() > 1) { // 동명이인 있을 경우
-			
-			System.out.println("\n*** 대상 회원을 선택 해주세요 ***\n");
-			
-			for(int i = 0 ; i < searchList.size() ; i++) {
-				System.out.printf("%d) %s (%s)\n",
-						i+1, 
-						searchList.get(i).getName(),
-						searchList.get(i).getPhone());
-			}
-			
-			System.out.print("선택할 회원의 번호를 입력 : ");
-			int input = Integer.parseInt( br.readLine() ) - 1;
-			
-			if(input < 0 || input >= searchList.size()) {
-				System.out.println("\n### 없는 회원 번호 입니다. 다시 시도 해주세요 ###\n");
-				return;
+			if(input >= searchList.size() || input < 0) {
+				System.out.println("\n### 없는 할 일 번호 입니다. 다시 시도해주세요. ###\n");
+				return;				
 			}
 			
 			target = searchList.get(input);
-		
-		} else { // 동명이인 없을 경우
-			target = searchList.get(0);
+			
+		}else {
+			target =searchList.get(0);
 		}
-		
-		// 수정할 전화 번호 입력받기
-		System.out.print("수정할 전화번호 입력 : ");
-		String phone = br.readLine();
-		
-		
-		// 정보수정 서비스 호출 후 결과 문자열 반환 받기
-		String result = service.updateMember(target, phone);
-		System.out.println(result);
-	}
-	
-	
-	// ------------------------------------------------------------
-	// [회원 탈퇴]
-	
-	private void deleteMember() throws NumberFormatException, IOException {
-		System.out.println("\n----- 회원 탈퇴 -----\n");
-		
-System.out.print("회원 이름 입력 : ");
-		
-		String targetName = br.readLine();
-		
-		// 이름이 일치하는 회원 모두 조회
-		List<Member> searchList = service.selectName(targetName);
-		
-		// 이름이 일치하는 회원이 없을 경우
-		if(searchList.isEmpty()) {
-			System.out.println("\n### 이름이 일치하는 회원이 존재하지 않습니다 ###\n");
-			return;
-		}
-		
-		// 탈퇴 대상을 참조할 변수 선언
-		Member target = null;
-		
-		if(searchList.size() > 1) { // 동명이인 있을 경우
-			
-			System.out.println("\n*** 대상 회원을 선택 해주세요 ***\n");
-			
-			for(int i = 0 ; i < searchList.size() ; i++) {
-				System.out.printf("%d) %s (%s)\n",
-						i+1, 
-						searchList.get(i).getName(),
-						searchList.get(i).getPhone());
-			}
-			
-			System.out.print("선택할 회원의 번호를 입력 : ");
-			int input = Integer.parseInt( br.readLine() ) - 1;
-			
-			if(input < 0 || input >= searchList.size()) {
-				System.out.println("\n### 없는 회원 번호 입니다. 다시 시도 해주세요 ###\n");
-				return;
-			}
-			
-			target = searchList.get(input);
-		
-		} else { // 동명이인 없을 경우
-			target = searchList.get(0);
-		}
-		
 
-		// 정말 탈퇴를 할 것인지 확인
-		System.out.println("정말 탈퇴 처리 하시겠습니까? (y/n)");
-		
+		// 정말 삭제를 할 것인지 확인 
+		System.out.print("정말 삭제 처리 하시겠습니까? (Y/N)");
+				
+		// 입력받은 문자열을 소문자로 만들어
+		// 제일 앞 문자 하나만 반환 받기
 		char check = br.readLine().toLowerCase().charAt(0);
-		if(check == 'n') {
-			System.out.println("탈퇴가 취소 되었습니다");
+			
+		if(check == 'n') { // n 입력한 경우
+			System.out.print("\n### 삭제 취소 ###\n");
 			return;
 		}
-		if(check != 'y') {
-			System.out.println("잘못 입력 하셨습니다. 다시시도해 주세요 ");
+				
+		if(check != 'y') { // 잘못 입력한 경우
+			System.out.println("\\n### 잘못 입력 하였습니다. 다시 시도해주세요. ###\\n");
 			return;
 		}
-		//y 입력된 경우 
-		// 탈퇴 서비스 호출 후 결과 문자열 반환 받기 
-		String result = service.deletMember(target);
-	
+				
+		// y 입력한 경우		
+		// 삭제 서비스 호출 후 결과 문자열 반환 받기
+		String result = service.removeMember(target);
+				
+		System.out.println(result);  
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
