@@ -64,7 +64,7 @@ public class Run {
 	boolean flage = true;
 	for(String menu : menuSet){
 		if(menu.equals("라면")) {
-			flage = false;
+			flage = false; //flage 사용방법
 			System.out.println("라면 있음");
 			return;
 		}
