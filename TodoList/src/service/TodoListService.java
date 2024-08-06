@@ -13,11 +13,14 @@ public interface TodoListService {
 	public abstract	List<Todo> getTodoList();
 
 	
-	boolean addTodoList(String title, String detail) throws IOException;
+	public abstract boolean addTodoList(String title, String detail) throws IOException;
 
-	boolean addTodo(Todo todo) throws IOException;
 
 	List<Todo> selectTitle(String searchTitle);
-	
+
+	public List<Todo> selectIndex(int input) ;
+
+
+	String removeMember(int input) throws IOException;
 
 }

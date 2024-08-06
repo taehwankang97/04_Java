@@ -62,10 +62,10 @@ public class TodoListView {
                         completeTodo();
                         break;
                     case 5:
-                        // updateTodo(); // Implement as needed
+                        // updateTodo();
                         break;
                     case 6:
-                        // deleteTodo(); // Implement as needed
+                    	deleteTodo();
                         break;
                     case 0:
                         System.out.println("\n@@@ 프로그램 종료 @@@\n");
@@ -147,6 +147,49 @@ public class TodoListView {
         }
         	
         }
-        }
+    private void deleteTodo() throws IOException {
+		System.out.print("\n Todo Delete \n");
+		  
+		// 삭제할 할 일 제목 입력받기
+		System.out.print("삭제할 할 일 인덱스 번호 입력 >>> ");
+		int input = Integer.parseInt(br.readLine());
+				
+		// 제목이 일치하는 회원 모두 조회
+		List<Todo> searchList = service.selectIndex(input);
+				
+		// 제목이 일치하는 회원이 없을 경우
+		if(searchList.isEmpty()) {
+			System.out.println("\n### 제목이 일치하는 할 일이 없습니다. ###\n");
+			return;
+			}
+				
+		
+		// 정말 삭제를 할 것인지 확인 
+		System.out.print("정말 삭제 처리 하시겠습니까? (Y/N)");
+				
+		// 입력받은 문자열을 소문자로 만들어
+		// 제일 앞 문자 하나만 반환 받기
+		char check = br.readLine().toLowerCase().charAt(0);
+			
+		if(check == 'n') { // n 입력한 경우
+			System.out.print("\n삭제 취소\n");
+			return;
+		}
+				
+		if(check != 'y') { // 잘못 입력한 경우
+			System.out.println("\\n잘못 입력 하였습니다. 다시 시도해주세요.\\n");
+			return;
+		}
+
+		
+		String result = service.removeMember(input);
+				
+		System.out.println(result);  
+	}
+	
+	
+}
+
+        
     
 
