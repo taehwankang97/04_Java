@@ -147,6 +147,73 @@ public class TodoListView {
         }
         	
         }
+    
+	private void updateTodo() throws IOException {
+		System.out.println("\n=== Todo Update ===\n");
+		
+		System.out.print("수정할 할 일 인덱스 번호 입력 >>>>>");
+		int input = Integer.parseInt(br.readLine());
+		
+		List<Todo> searchList = service.selectIndex(input);
+		
+		if(searchList.isEmpty()) {
+			System.out.println("\n### 일치하는 할 일이 없습니다. ###\n");
+			return;
+		}
+		
+		
+		for(Todo todo : searchList) {
+			
+			System.out.println("수정 전");
+			System.out.println("--------------------------------------------");
+		
+		
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		
+			System.out.println("------------------------------------");
+			System.out.println("제목 : " + todo.getTitle());
+			System.out.println("등록일 : " + todo.getRegDate().format(formatter));
+			System.out.println("완료 여부 : " + (todo.isComplete() ? "O" : "X"));
+			System.out.println("------------------------------------");
+			System.out.println("[세부 내용]\n" + todo.getDetail());
+		}
+		
+		// 수정할 상세 내용 입력
+		System.out.println("제목 : ");
+		String title = br.readLine();
+		
+		StringBuilder detailBuilder = new StringBuilder();
+        String line;
+
+        // 세부내용 입력 안내 메시지를 한 번만 출력
+        System.out.println("세부내용 작성(입력 종료 시 !wq 작성 후 엔터)");
+        System.out.println("----------------------------------------------");
+        
+        while (true) {
+            line = br.readLine();
+            if ("!wq".equals(line.trim())) { // 사용자가 입력한 문자열이 !wq인지 확인
+                System.out.println("----------------------------------------------");
+                break;
+            }
+            detailBuilder.append(line).append("\n"); // 세부내용을 StringBuilder에 추가
+        }
+        
+        String detail = detailBuilder.toString().trim(); // 세부내용의 앞뒤 공백 및 개행 제거
+        
+        // 제목, 상세내용으로 할일 목록 추가 후 결과 반환받기
+        boolean result = service.addTodoList(title, detail);
+		
+		if(result) {
+			List<Todo> todoList = service.getTodoList();
+			
+			for(int i = 0; i < todoList.size(); i++) {
+				if(todoList.get(i).getTitle().equals(title)) {
+					System.out.printf("\n*** [수정 되었습니다.] ***\n", i);
+					break;
+				}
+			}
+		}
+	}
     private void deleteTodo() throws IOException {
 		System.out.print("\n Todo Delete \n");
 		  

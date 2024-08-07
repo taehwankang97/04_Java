@@ -17,7 +17,7 @@ public class TodoListServiceImpl implements TodoListService{
 	
 	private TodoListDao dao = null;
 	
-	
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 	
 	public TodoListServiceImpl() throws FileNotFoundException, ClassNotFoundException, IOException{
 		dao = new TodoListDaoImpl();
@@ -84,20 +84,20 @@ public class TodoListServiceImpl implements TodoListService{
 	
 	
 	
-//	// [5] 내용 수정
-//	@Override
-//	public String updateTodo(todo) throws IOException {
-//		
-//		todo.setDetail(todo);
-//		
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("할 일의 내용이 수정되었습니다.");
-//		
-//		dao.saveFile();
-//		
-//		
-//		return sb.toString();
-//	}
+	// [5] 내용 수정
+	@Override
+	public String updattodo(Todo target, String detail) throws IOException {
+		
+		todo.setDetail(todo);
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("할 일의 내용이 수정되었습니다.");
+		
+		dao.saveFile();
+		
+		
+		return sb.toString();
+	}
 
 	// [6] 
 	@Override
