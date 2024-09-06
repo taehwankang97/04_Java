@@ -86,7 +86,7 @@ public class TodoListServiceImpl implements TodoListService{
 	
 	// [5] 내용 수정
 	@Override
-	public String updattodo(Todo target, String detail) throws IOException {
+	public String updateodo(Todo target, String detail) throws IOException {
 		
 		todo.setDetail(todo);
 		
